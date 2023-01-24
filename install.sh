@@ -29,7 +29,7 @@ function Help() {
 
    # Display Help
    echo ""
-   echo "Syntax: ./install.sh [OPTION..] [OPTION..]"
+   echo "Syntax: ./install.sh [OPTION..] [MODIFIER..]"
    echo ""
    echo "Options:"
    echo "-h, --help                Print this help message."
@@ -39,9 +39,10 @@ function Help() {
    echo "-wsl, --wsl               Current operational system (Windows Subsystem for Linux)."
    echo "-w, --windows             Current operational system (Windows)."
    echo ""
-   echo "    -c, --config-sys          Configure system."
-   echo "    -i, --install-packages    Install packages."
-   echo "    -p, --check-packages      Check if all packages are installed (not available for -w, --windows)."
+   echo "Modifiers:"
+   echo "-c, --config-sys          Configure system."
+   echo "-i, --install-packages    Install packages."
+   echo "-p, --check-packages      Check if all packages are installed (not available for -w, --windows)."
    echo ""
 
 }
