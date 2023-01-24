@@ -1,0 +1,15 @@
+wget
+git
+man-db
+dialog
+gnome-keyring
+zip
+unzip
+curl
+python3
+python3-pip
+python-psutil
+python-setuptools
+htop
+firefox
+gdb
