@@ -566,9 +566,8 @@ function install-fonts() {
 function install-config-files() {
 
     mkdir --verbose "${PWD}"/Ignored
-    #source "/etc/machine-info"
-    system='arch'
-    CHASSIS='laptop'
+    source "/etc/machine-info"
+
     case "${system}" in
         arch )
             if [ "${CHASSIS}" == "desktop" ]; then
