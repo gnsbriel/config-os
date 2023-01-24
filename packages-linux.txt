@@ -1,3 +1,6 @@
+man-db
+manpages
+texinfo
 gnome-tweaks
 python3
 python3-pip

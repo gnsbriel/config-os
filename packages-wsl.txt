@@ -1,6 +1,8 @@
 wget
 git
 man-db
+manpages
+texinfo
 dialog
 gnome-keyring
 zip

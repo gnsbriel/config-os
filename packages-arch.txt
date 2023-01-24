@@ -1,6 +1,7 @@
 archlinux-keyring
 man-db
 man-pages
+texinfo
 dosfstools
 mtools
 wpa_supplicant
