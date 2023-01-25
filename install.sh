@@ -120,9 +120,11 @@ function configure-pretty-hostname() {
         case "${yn}" in
             'desktop' )
                 SET_CHASSIS="${yn}"
+                break ;
                 ;;
             'laptop' )
                 SET_CHASSIS="${yn}"
+                break ;
                 ;;
             * )
                 printf "%bPlease answer with '%bdesktop%b' or '%blaptop%b'. %b\n" "${red}" "${light_gray}" "${red}" "${light_gray}" "${red}" "${reset}"
@@ -288,9 +290,10 @@ function configure-user() {
                 do
                     printf "%bPasswords do not match. Try again..%b\n" "${red}" "${reset}"
                 done
+                break ;
                 ;;
             'no' )
-                :
+                break ;
                 ;;
             * )
                 printf "%bPlease answer with '%byes%b' or '%bno%b'. %b\n" "${red}" "${light_gray}" "${red}" "${light_gray}" "${red}" "${reset}"
