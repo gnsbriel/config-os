@@ -6,6 +6,13 @@ python3
 python3-pip
 python3-psutil
 python3-setuptools
+wget
+git
+dialog
+zip
+unzip
+curl
+htop
 firefox
 chromium-browser
 virtualbox
@@ -20,6 +27,7 @@ audacity
 code
 vlc
 gimp
+gdb
 fonts-noto-color-emoji
 fonts-wqy-zenhei
 shellcheck
