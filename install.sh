@@ -164,12 +164,12 @@ function configure-package-manager() {
     case "${system}" in
         arch )
 
-            mkdir --verbose "${PWD}"/Backup
-            if [ ! -f "${PWD}"/Backup/pacman.conf.backup ]; then
-                cp --verbose /etc/pacman.conf "${PWD}"/Backup/pacman.conf.backup
+            mkdir --verbose "${PWD}"/.Backup
+            if [ ! -f "${PWD}"/.Backup/pacman.conf.backup ]; then
+                cp --verbose /etc/pacman.conf "${PWD}"/.Backup/pacman.conf.backup
             fi
 
-            cp --verbose "${PWD}"/Backup/pacman.conf.backup /etc/pacman.conf
+            cp --verbose "${PWD}"/.Backup/pacman.conf.backup /etc/pacman.conf
             sed --expression 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' --in-place /etc/pacman.conf
             sed --expression 's/#Color/Color/g' --in-place /etc/pacman.conf
             {
@@ -286,8 +286,7 @@ function configure-user() {
                 usermod --comment "${USER_NAME}" "${USER_LOGIN}"
 
                 printf "%bSet Password for %b'%s'%b\n" "${cyan}" "${light_gray}" "${USER_LOGIN}" "${reset}"
-                until passwd "${USER_LOGIN}"
-                do
+                until passwd "${USER_LOGIN}"; do
                     printf "%bPasswords do not match. Try again..%b\n" "${red}" "${reset}"
                 done
                 break ;
@@ -364,14 +363,20 @@ function install-packages() {
     case "${system}" in
         arch )
             while IFS="" read -r p || [ -n "${p}" ]; do
-                    printf "%bInstalling %s...%b\n" "${yellow}" "${p}" "${reset}"
-                    sudo pacman --sync "${p}" --noconfirm
+                printf "%bInstalling %s...%b\n" "${yellow}" "${p}" "${reset}"
+                until sudo pacman --sync "${p}" --noconfirm; do
+                    printf "%bAn error ocurred, trying again..%b\n" "${red}" "${reset}"
+                    sleep 5
+                done
             done < "${file}"
             ;;
         * )
             while IFS="" read -r p || [ -n "${p}" ]; do
-                    printf "%bInstalling %s...%b\n" "${yellow}" "${p}" "${reset}"
-                    sudo apt install "${p}" --yes
+                printf "%bInstalling %s...%b\n" "${yellow}" "${p}" "${reset}"
+                until sudo apt install "${p}" --yes; do
+                    printf "%bAn error ocurred, trying again..%b\n" "${red}" "${reset}"
+                    sleep 5
+                done
             done < "${file}"
             ;;
     esac
