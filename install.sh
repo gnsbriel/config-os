@@ -273,6 +273,20 @@ function configure-home-directory() {
 
 }
 
+function config-xdg-base-directory() {
+
+    {
+    printf "\n# Default Editor"
+    printf "\nEDITOR=nano"
+    printf "\n\n# XDG Base Directory"
+    printf "\nXDG_CACHE_HOME  DEFAULT=@{HOME}/.cache"
+    printf "\nXDG_CONFIG_HOME DEFAULT=@{HOME}/.config"
+    printf "\nXDG_DATA_HOME   DEFAULT=@{HOME}/.local/share"
+    printf "\nXDG_STATE_HOME  DEFAULT=@{HOME}/.local/state"
+    } | tee --append /etc/security/pam_env.conf > /dev/null 2>&1
+
+}
+
 function configure-user() {
 
     while true; do
@@ -386,18 +400,6 @@ function install-packages() {
 function install-other-packages() {
 
     mkdir --parents --verbose "${PWD}"/Downloads/Packages ;
-
-    (
-        # ly
-        printf "\n%bInstalling LY (GitHub Fork)...%b\n" "${yellow}" "${reset}"
-        sleep 2
-
-        if [ -d "${PWD}"/Downloads/Packages/ly-display-manager ]; then rm --force --recursive --verbose "${PWD}"/Downloads/Packages/ly-display-manager; fi
-        git clone --recurse-submodules https://github.com/gnsbriel/ly-display-manager.git "${PWD}"/Downloads/Packages/ly-display-manager
-        cd "${PWD}"/Downloads/Packages/ly-display-manager || exit
-        make
-        sudo make install installsystemd
-    )
 
     (
         # Spotify
@@ -593,14 +595,12 @@ function install-config-files() {
                 mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
                 mv --verbose "${PWD}"/etc/X11/xorg.conf.d/30-libinput.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
                 mv --verbose "${PWD}"/etc/modules-load.d "${PWD}"/Ignored/etc/
-                mv --verbose "${PWD}"/etc/ly "${PWD}"/Ignored/etc/
                 mv --verbose "${PWD}"/etc/pam.d "${PWD}"/Ignored/etc/
             elif [ "${CHASSIS}" == "laptop" ]; then
                 mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
                 mv --verbose "${PWD}"/etc/X11/xorg.conf.d/10-monitor.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
                 mv --verbose "${PWD}"/etc/X11/xorg.conf.d/20-amdgpu.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
                 mv --verbose "${PWD}"/etc/modules-load.d "${PWD}"/Ignored/etc/
-                mv --verbose "${PWD}"/etc/ly "${PWD}"/Ignored/etc/
                 mv --verbose "${PWD}"/etc/pam.d "${PWD}"/Ignored/etc/
             fi
             ;;
@@ -627,26 +627,24 @@ function install-dotfiles() {
 
         case "${system}" in
             arch )
-                bash install.sh --arch
+                bash install.sh --system arch
                 ;;
             ubuntu )
-                bash install.sh --ubuntu
+                bash install.sh --system ubuntu
                 ;;
             wsl )
-                bash install.sh --wsl
+                bash install.sh --system wsl
                 ;;
             windows )
-                bash install.sh --windows
+                bash install.sh --system windows
                 ;;
         esac
     )
-
 }
 
 function download-wallpapers() {
 
     git clone https://gitlab.com/dwt1/wallpapers.git "${HOME}"/Pictures/Wallpapers
-
 }
 
 #Section: "--enable-services"
@@ -659,8 +657,6 @@ function enable-services() {
             ;;
         * )
             sudo systemctl enable ufw.service          ; # Enable firewall Service
-            sudo systemctl enable ly.service           ; # Enable Ly Service
-            sudo systemctl disable getty@tty2.service  ; # Disable getty on Ly's tty to prevent "login" from spawning on top of it
             sudo systemctl enable numlock.service      ; # Enable Numlock Service
             sudo ufw enable                            ; # Enable firewall
             ;;
@@ -758,6 +754,7 @@ while true; do
                 configure-grub
                 configure-network
                 configure-home-directory
+                config-xdg-base-directory
                 configure-user
                 configure-sudoers
             fi

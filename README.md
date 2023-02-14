@@ -10,7 +10,7 @@
 
 # Config - OS
 
-Config - OS is a bash script and a collection of files used to quickly setup a brand new installation of Windows, Windows Subsystem for Linux, Linux (Ubuntu bases distros) and Arch Linux. This script, files and informations were created or edited with the sole intention of my own use but feel free to use them in any way !
+Config - OS is a bash script and a collection of files used to quickly setup a brand new installation of Windows, Windows Subsystem for Linux and Arch Linux. This script, files and informations were created or edited with the sole intention of my own use but feel free to use them in any way !
 
 - [Config - OS](#config---os)
   - [Arch Linux](#arch-linux)
@@ -23,7 +23,6 @@ Config - OS is a bash script and a collection of files used to quickly setup a b
     - [Generating fstab](#generating-fstab)
     - [Chroot into the system](#chroot-into-the-system)
     - [Configuring the System](#configuring-the-system)
-  - [Linux (Ubuntu Based Distros)](#linux-ubuntu-based-distros)
   - [WSL - Windows Subsystem for Linux](#wsl---windows-subsystem-for-linux)
   - [Windows](#windows)
 
@@ -140,104 +139,18 @@ $ arch-chroot /mnt
 
 Either use the file "./install" for an automated configuration, or follow the steps in the [Arch Wiki](https://wiki.archlinux.org/title/Installation_guide).
 
->Syntax: `$ ./install.sh [OPTION..] [MODIFIER..]`
->
->Options:
->
-> -h, --help Print this help message.
->
-> -a, --arch Current operational system (Arch Linux).
->
-> -u, --ubuntu Current operational system (Ubuntu-based Distro).
->
-> -wsl, --wsl Current operational system (Windows Subsystem for Linux).
->
-> -w, --windows Current operational system (Windows).
->
->Modifiers:
->
-> -c, --config-sys Configure system.
->
-> -i, --install-packages Install packages.
->
-> -p, --check-packages Check if all packages are installed (not available for -w, --windows).
-
-## Linux (Ubuntu Based Distros)
-
-Use the file "./install" for an automated configuration.
-
->Syntax: `$ ./install.sh [OPTION..] [MODIFIER..]`
->
->Options:
->
-> -h, --help Print this help message.
->
-> -a, --arch Current operational system (Arch Linux).
->
-> -u, --ubuntu Current operational system (Ubuntu-based Distro).
->
-> -wsl, --wsl Current operational system (Windows Subsystem for Linux).
->
-> -w, --windows Current operational system (Windows).
->
->Modifiers:
->
-> -c, --config-sys Configure system.
->
-> -i, --install-packages Install packages.
->
-> -p, --check-packages Check if all packages are installed (not available for -w, --windows).
+>Try: `$ ./install.sh --help` for more information.
 
 ## WSL - Windows Subsystem for Linux
 
 Use the file "./install" for an automated configuration.
 
->Syntax: `$ ./install.sh [OPTION..] [MODIFIER..]`
->
->Options:
->
-> -h, --help Print this help message.
->
-> -a, --arch Current operational system (Arch Linux).
->
-> -u, --ubuntu Current operational system (Ubuntu-based Distro).
->
-> -wsl, --wsl Current operational system (Windows Subsystem for Linux).
->
-> -w, --windows Current operational system (Windows).
->
->Modifiers:
->
-> -c, --config-sys Configure system.
->
-> -i, --install-packages Install packages.
->
-> -p, --check-packages Check if all packages are installed (not available for -w, --windows).
+>Try: `$ ./install.sh --help` for more information.
 
 ## Windows
 
 Use the file "./install" for an automated configuration.
 
->Syntax: `$ ./install.sh [OPTION..] [MODIFIER..]`
->
->Options:
->
-> -h, --help Print this help message.
->
-> -a, --arch Current operational system (Arch Linux).
->
-> -u, --ubuntu Current operational system (Ubuntu-based Distro).
->
-> -wsl, --wsl Current operational system (Windows Subsystem for Linux).
->
-> -w, --windows Current operational system (Windows).
->
->Modifiers:
->
-> -c, --config-sys Configure system.
->
-> -i, --install-packages Install packages.
->
-> -p, --check-packages Check if all packages are installed (not available for -w, --windows).
+>Try: `$ ./install.sh --help` for more information.
 
 </details>
