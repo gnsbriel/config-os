@@ -10,7 +10,7 @@
 
 # Config - OS
 
-Config - OS is a bash script and a collection of files used to quickly setup a brand new installation of Windows, Windows Subsystem for Linux and Arch Linux. This script, files and informations were created or edited with the sole intention of my own use but feel free to use them in any way !
+Config - OS is a bash script and a collection of files used to quickly setup a brand new installation of Windows, Windows Subsystem for Linux and mainly, Arch Linux. This script, files and informations were created or edited with the sole intention of my own use but feel free to use them in any way !
 
 - [Config - OS](#config---os)
   - [Arch Linux](#arch-linux)
@@ -110,6 +110,7 @@ For example:
 #Server = http://mirror.rackspace.com/archlinux/$repo/os/$arch
 Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
 ```
+Or you can use a tool like `Reflector` to automate this process.
 
 ### Pacstrap
 

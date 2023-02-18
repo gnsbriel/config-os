@@ -16,6 +16,7 @@ network-manager-applet
 cbatticon
 volumeicon
 xorg
+xorg-xinit
 mesa
 lib32-mesa
 xf86-video-amdgpu

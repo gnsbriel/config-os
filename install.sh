@@ -35,7 +35,6 @@ function Help() {
    echo "-h, --help                Print this help message."
    echo ""
    echo "-a, --arch                Current operational system (Arch Linux)."
-   echo "-u, --ubuntu              Current operational system (Ubuntu-based Distro)."
    echo "-wsl, --wsl               Current operational system (Windows Subsystem for Linux)."
    echo "-w, --windows             Current operational system (Windows)."
    echo ""
@@ -179,10 +178,6 @@ function configure-package-manager() {
 
             pacman --sync --refresh --refresh --noconfirm
             ;;
-        ubuntu )
-            ${permit} apt update --yes
-            ${permit} apt upgrade --yes
-            ;;
         wsl )
             ${permit} apt update --yes
             ${permit} apt upgrade --yes
@@ -232,16 +227,6 @@ function configure-home-directory() {
             mkdir --verbose /etc/skel/Virtual\ Machine
             mkdir --verbose /etc/skel/.local
             mkdir --verbose /etc/skel/.local/bin
-            ;;
-        ubuntu )
-            mkdir --verbose "${HOME}"/Pictures/Screenshots
-            mkdir --verbose "${HOME}"/Pictures/Wallpapers
-            mkdir --verbose "${HOME}"/Projects
-            mkdir --verbose "${HOME}"/Video\ Games
-            mkdir --verbose "${HOME}"/Repositories
-            mkdir --verbose "${HOME}"/Virtual\ Machine
-            mkdir --verbose "${HOME}"/.local
-            mkdir --verbose "${HOME}"/.local/bin
             ;;
         wsl )
             mkdir --verbose "${HOME}"/Desktop
@@ -578,40 +563,21 @@ function install-config-files() {
     mkdir --verbose "${PWD}"/Ignored
     source "/etc/machine-info"
 
-    case "${system}" in
-        arch )
-            if [ "${CHASSIS}" == "desktop" ]; then
-                mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/X11/xorg.conf.d/30-libinput.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-            fi
-            if [ "${CHASSIS}" == "laptop" ]; then
-                mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/X11/xorg.conf.d/10-monitor.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/X11/xorg.conf.d/20-amdgpu.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-            fi
-            ;;
-        ubuntu )
-            if [ "${CHASSIS}" == "desktop" ]; then
-                mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/X11/xorg.conf.d/30-libinput.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/modules-load.d "${PWD}"/Ignored/etc/
-                mv --verbose "${PWD}"/etc/pam.d "${PWD}"/Ignored/etc/
-            elif [ "${CHASSIS}" == "laptop" ]; then
-                mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/X11/xorg.conf.d/10-monitor.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/X11/xorg.conf.d/20-amdgpu.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
-                mv --verbose "${PWD}"/etc/modules-load.d "${PWD}"/Ignored/etc/
-                mv --verbose "${PWD}"/etc/pam.d "${PWD}"/Ignored/etc/
-            fi
-            ;;
-    esac
+    if [ "${CHASSIS}" == "desktop" ]; then
+        mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
+        mv --verbose "${PWD}"/etc/X11/xorg.conf.d/30-libinput.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
+    fi
+    if [ "${CHASSIS}" == "laptop" ]; then
+        mkdir --parents "${PWD}"/Ignored/etc/X11/xorg.conf.d/
+        mv --verbose "${PWD}"/etc/X11/xorg.conf.d/10-monitor.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
+        mv --verbose "${PWD}"/etc/X11/xorg.conf.d/20-amdgpu.conf "${PWD}"/Ignored/etc/X11/xorg.conf.d/
+    fi
 
     sudo cp --recursive --verbose "${PWD}"/etc /
     sudo cp --recursive --verbose "${PWD}"/usr /
 
     cp --recursive "${PWD}"/Ignored/etc "${PWD}"/
     rm --force --recursive "${PWD}"/Ignored
-
 }
 
 #Section: "--install-dotfiles"
@@ -628,9 +594,6 @@ function install-dotfiles() {
         case "${system}" in
             arch )
                 bash install.sh --system arch
-                ;;
-            ubuntu )
-                bash install.sh --system ubuntu
                 ;;
             wsl )
                 bash install.sh --system wsl
@@ -651,17 +614,9 @@ function download-wallpapers() {
 
 function enable-services() {
 
-    case "${system}" in
-        ubuntu )
-            sudo systemctl enable numlock.service      ; # Enable Numlock Service
-            ;;
-        * )
-            sudo systemctl enable ufw.service          ; # Enable firewall Service
-            sudo systemctl enable numlock.service      ; # Enable Numlock Service
-            sudo ufw enable                            ; # Enable firewall
-            ;;
-    esac
-
+    sudo systemctl enable ufw.service          ; # Enable firewall Service
+    sudo systemctl enable numlock.service      ; # Enable Numlock Service
+    sudo ufw enable                            ; # Enable firewall
 }
 
 ############################################################
@@ -678,12 +633,6 @@ while true; do
             system="arch"
             permit=""
             file="${PWD}/packages-arch.txt"
-            shift
-            ;;
-        -u | --ubuntu)
-            system="ubuntu"
-            permit="sudo"
-            file="${PWD}/packages-linux.txt"
             shift
             ;;
         -wsl | --wsl)
@@ -703,17 +652,6 @@ while true; do
             if [ "${system}" == "arch" ]; then
                 install-packages
                 install-other-packages
-                install-others
-                install-fonts
-                install-config-files
-                install-dotfiles
-                download-wallpapers
-                enable-services
-                check-installed-packages
-            fi
-
-            if [ "${system}" == "ubuntu" ]; then
-                install-packages
                 install-others
                 install-fonts
                 install-config-files
@@ -759,15 +697,6 @@ while true; do
                 configure-sudoers
             fi
 
-            if [ "${system}" == "ubuntu" ]; then
-                configure-hostname
-                configure-pretty-hostname
-                configure-hosts
-                configure-package-manager
-                configure-home-directory
-                configure-sudoers
-            fi
-
             if [ "${system}" == "wsl" ]; then
                 configure-package-manager
                 configure-home-directory
@@ -784,10 +713,6 @@ while true; do
             timer "$(printf "%bWarning: You chose to check if packages for %s are installed..%b" "${yellow}" "${system}" "${reset}")"
 
             if [ "${system}" == "arch" ]; then
-                check-installed-packages
-            fi
-
-            if [ "${system}" == "ubuntu" ]; then
                 check-installed-packages
             fi
 
