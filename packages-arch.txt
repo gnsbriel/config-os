@@ -72,10 +72,12 @@ ristretto
 pluma
 flameshot
 thunderbird
+qemu
+dnsmasq
+libvirt
+virt-manager
 qbittorrent
-neofetch
 galculator
-cmatrix
 htop
 btop
 freerdp
@@ -88,7 +90,6 @@ gvfs
 thunar-archive-plugin
 ffmpegthumbnailer
 tumbler
-gdb
 parcellite
 noto-fonts-emoji
 lib32-fontconfig

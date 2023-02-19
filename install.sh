@@ -614,6 +614,7 @@ function download-wallpapers() {
 
 function enable-services() {
 
+    sudo systemctl enable libvirtd             ; # Enable Libvirtd ("Virtualization")
     sudo systemctl enable ufw.service          ; # Enable firewall Service
     sudo systemctl enable numlock.service      ; # Enable Numlock Service
     sudo ufw enable                            ; # Enable firewall
