@@ -62,8 +62,6 @@ alacritty
 firefox
 chromium
 geckodriver
-virtualbox-host-modules-arch
-virtualbox
 piper
 steam
 lutris
